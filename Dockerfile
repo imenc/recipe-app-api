@@ -4,13 +4,19 @@ LABEL maintainer="londonappdeveloper.com"
 ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /tmp/requirements.txt
+COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
+
+ARG DEV=false
 RUN apk add gcc musl-dev mariadb-connector-c-dev
 RUN python -m venv /py && \
     /usr/local/bin/pip install --upgrade pip && \
     /usr/local/bin/pip install -r /tmp/requirements.txt && \
+    if [ $DEV = "true" ]; \
+        then /usr/local/bin/pip install -r /tmp/requirements.dev.txt ; \
+    fi && \
     rm -rf /tmp && \
     adduser \
         --disabled-password \
