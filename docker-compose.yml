@@ -21,6 +21,7 @@ services:
       - DB_USER=devuser
       - DB_PASS=changeme
       - DEBUG=1
+      - ALLOWED_HOSTS=127.0.0.1
     depends_on:
       - db
 
